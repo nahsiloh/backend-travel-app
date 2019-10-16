@@ -34,6 +34,18 @@ router.post("/new", async (req, res, next) => {
   }
 });
 
+router.patch("/:id", async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const updateTrip = req.body;
+    await Trip.findByIdAndUpdate(id, updateTrip, { new: true });
+    const trips = await Trip.find();
+    res.send(trips);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.delete("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
