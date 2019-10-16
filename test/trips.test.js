@@ -126,35 +126,59 @@ describe("/trips", () => {
     });
   });
 
-  describe("[DELETE]/trips", () => {
-    it("/:id should delete one trip by id", async () => {
-      const { body: actualTrip } = await request(app)
+  describe("[PATCH]/trips", () => {
+    it("/:id should edit one trip by id", async () => {
+      const expectedTrip = [
+        {
+          itineraries: [
+            {
+              program: "Accommodation",
+              destination: "Fullerton",
+              date: "2019-10-14T16:00:00.000Z"
+            }
+          ]
+        }
+      ];
+      const updatedTrip = {
+        itineraries: [
+          {
+            program: "Accommodation",
+            destination: "Fullerton",
+            date: "2019-10-14T16:00:00.000Z"
+          }
+        ]
+      };
+
+      const { body: originalTrip } = await request(app)
         .get("/trips")
         .expect(200);
 
-      const id = actualTrip[0]._id;
+      const id = originalTrip[0]._id;
 
-      await request(app)
-        .delete("/trips/" + id)
+      const { body: newTrip } = await request(app)
+        .patch("/trips/" + id)
+        .send(updatedTrip)
         .expect(200);
 
-      expect(actualTrip.length).toBe(1);
+      expect(newTrip[0].itineraries[0]).toEqual(
+        expect.objectContaining(expectedTrip[0].itineraries[0])
+      );
     });
   });
 
   describe("[DELETE]/trips", () => {
     it("/:id should delete one trip by id", async () => {
-      const { body: actualTrip } = await request(app)
+      const { body: originalTrip } = await request(app)
         .get("/trips")
         .expect(200);
 
-      const id = actualTrip[0]._id;
+      const id = originalTrip[0]._id;
 
-      await request(app)
+      const { body: deleteTrip } = await request(app)
         .delete("/trips/" + id)
         .expect(200);
 
-      expect(actualTrip.length).toBe(1);
+      expect(deleteTrip.length).toBe(0);
     });
   });
 });
