@@ -1,0 +1,30 @@
+{
+  "name": "backend-travel-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:all": "npm run lint && npm run test",
+    "start-db": "mongod --dbpath ~/data/db"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5"
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-plugin-jest": "^22.19.0",
+    "eslint-plugin-react": "^7.16.0",
+    "jest": "^24.9.0",
+    "mongodb-memory-server": "^5.2.8",
+    "nodemon": "^1.19.3",
+    "supertest": "^4.0.2"
+  }
+}
