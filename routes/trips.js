@@ -26,9 +26,8 @@ router.post("/new", async (req, res, next) => {
   try {
     const addTrip = new Trip(req.body);
     await Trip.init();
-    await addTrip.save();
-    const trips = await Trip.find();
-    res.send(trips);
+    const newTrip = await addTrip.save();
+    res.send(newTrip);
   } catch (err) {
     next(err);
   }
