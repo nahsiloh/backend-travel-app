@@ -15,7 +15,7 @@ const itinerarySchema = new mongoose.Schema({
 });
 
 const tripSchema = new mongoose.Schema({
-  itineraries: [itinerarySchema]
+  itinerary: [itinerarySchema]
 });
 
 const Trip = mongoose.model("Trip", tripSchema);

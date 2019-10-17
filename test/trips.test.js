@@ -25,7 +25,7 @@ describe("/trips", () => {
   beforeEach(async () => {
     await Trip.create([
       {
-        itineraries: [
+        itinerary: [
           {
             program: "Attraction",
             destination: "Zoo",
@@ -49,7 +49,7 @@ describe("/trips", () => {
     it("/:id should return one trip by id", async () => {
       const expectedTrip = [
         {
-          itineraries: [
+          itinerary: [
             {
               program: "Attraction",
               destination: "Zoo",
@@ -68,8 +68,8 @@ describe("/trips", () => {
         .get("/trips/" + id)
         .expect(200);
 
-      expect(actualTrip[0].itineraries[0]).toEqual(
-        expect.objectContaining(expectedTrip[0].itineraries[0])
+      expect(actualTrip[0].itinerary[0]).toEqual(
+        expect.objectContaining(expectedTrip[0].itinerary[0])
       );
     });
   });
@@ -78,7 +78,7 @@ describe("/trips", () => {
     it("/new should add one trip", async () => {
       const expectedTrip = [
         {
-          itineraries: [
+          itinerary: [
             {
               program: "Attraction",
               destination: "Zoo",
@@ -87,7 +87,7 @@ describe("/trips", () => {
           ]
         },
         {
-          itineraries: [
+          itinerary: [
             {
               program: "Accommodation",
               destination: "Fullerton",
@@ -98,7 +98,7 @@ describe("/trips", () => {
       ];
 
       const addTrip = {
-        itineraries: [
+        itinerary: [
           {
             program: "Accommodation",
             destination: "Fullerton",
@@ -116,12 +116,12 @@ describe("/trips", () => {
         .get("/trips")
         .expect(200);
 
-      expect(actualTrip[0].itineraries[0]).toEqual(
-        expect.objectContaining(expectedTrip[0].itineraries[0])
+      expect(actualTrip[0].itinerary[0]).toEqual(
+        expect.objectContaining(expectedTrip[0].itinerary[0])
       );
 
-      expect(actualTrip[1].itineraries[0]).toEqual(
-        expect.objectContaining(expectedTrip[1].itineraries[0])
+      expect(actualTrip[1].itinerary[0]).toEqual(
+        expect.objectContaining(expectedTrip[1].itinerary[0])
       );
     });
   });
@@ -130,7 +130,7 @@ describe("/trips", () => {
     it("/:id should edit one trip by id", async () => {
       const expectedTrip = [
         {
-          itineraries: [
+          itinerary: [
             {
               program: "Accommodation",
               destination: "Fullerton",
@@ -140,7 +140,7 @@ describe("/trips", () => {
         }
       ];
       const updatedTrip = {
-        itineraries: [
+        itinerary: [
           {
             program: "Accommodation",
             destination: "Fullerton",
@@ -160,8 +160,8 @@ describe("/trips", () => {
         .send(updatedTrip)
         .expect(200);
 
-      expect(newTrip[0].itineraries[0]).toEqual(
-        expect.objectContaining(expectedTrip[0].itineraries[0])
+      expect(newTrip[0].itinerary[0]).toEqual(
+        expect.objectContaining(expectedTrip[0].itinerary[0])
       );
     });
   });
