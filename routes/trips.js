@@ -26,7 +26,7 @@ const protectedRoute = (req, res, next) => {
   }
 };
 
-router.get("/:id", protectedRoute, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const trip = await Trip.findById(id);
@@ -36,7 +36,7 @@ router.get("/:id", protectedRoute, async (req, res, next) => {
   }
 });
 
-router.post("/new", protectedRoute, async (req, res, next) => {
+router.post("/new", async (req, res, next) => {
   try {
     const addTrip = new Trip(req.body);
     await Trip.init();
@@ -47,7 +47,7 @@ router.post("/new", protectedRoute, async (req, res, next) => {
   }
 });
 
-router.patch("/:id", protectedRoute, async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const updateTrip = req.body;
@@ -59,7 +59,7 @@ router.patch("/:id", protectedRoute, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", protectedRoute, async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     await Trip.findByIdAndDelete(id);
