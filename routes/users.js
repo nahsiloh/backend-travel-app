@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const protectedRoute = require("./authentication");
 
 const User = require("../models/User");
 
@@ -46,9 +47,7 @@ router.post("/login", async (req, res, next) => {
     }
 
     const token = jwt.sign({ name: user.username }, SECRET_KEY);
-    console.log(token);
     res.cookie("token", token);
-
     res.send(user);
   } catch (err) {
     if (err.message === "Login failed") {
@@ -58,20 +57,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-const protectedRoute = (req, res, next) => {
-  try {
-    if (!req.cookies.token) {
-      throw new Error("You need a travel ticket!");
-    }
-    req.user = jwt.verify(req.cookies.token, SECRET_KEY);
-    next();
-  } catch (err) {
-    res.status(401).end("You are not authorised");
-  }
-};
-
-//protected route
-router.get("/:username", protectedRoute, async (req, res, next) => {
+router.get("/:username", async (req, res, next) => {
   try {
     const username = req.params.username;
     const regex = new RegExp(username, "gi");
@@ -81,10 +67,6 @@ router.get("/:username", protectedRoute, async (req, res, next) => {
     next(err);
   }
 });
-
-// router.get("/:username/trips", (req, res) => {
-//   const username = req.params.username;
-// });
 
 router.post("/logout", (req, res) => {
   res.clearCookie("token").send("You are now logged out!");
