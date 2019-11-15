@@ -1,7 +1,18 @@
 const mongoose = require("mongoose");
 const dbName = "trip-db";
 
-mongoose.connect(`mongodb://localhost/${dbName}`, {
+// const dbUrl = process.env.MONGO_URI;
+
+let dbUrl;
+if (process.env.NODE_ENV === "development") {
+  dbUrl = `mongodb://localhost/${dbName}`;
+}
+
+if (process.env.NODE_ENV === "production") {
+  dbUrl = process.env.MONGO_URI;
+}
+
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
