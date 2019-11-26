@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const MyObjectId = mongoose.Types.ObjectId;
+const Schema = mongoose.Schema;
+require("./User");
 
-const itinerarySchema = new mongoose.Schema({
+const itinerarySchema = Schema({
   program: {
     type: String,
     enum: ["accommodation", "attraction", "transportation", "others"],
@@ -15,12 +16,12 @@ const itinerarySchema = new mongoose.Schema({
   date: { type: Date, required: true }
 });
 
-const tripSchema = new mongoose.Schema({
-  user: { type: MyObjectId, ref: "User" },
+const tripSchema = Schema({
   name: { type: String, required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   itinerary: [itinerarySchema]
+  // users: [{ type: Schema.Types.ObjectId, ref: "User", required: true }]
 });
 
 const Trip = mongoose.model("Trip", tripSchema);
