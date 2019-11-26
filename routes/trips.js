@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "secretkey";
+const protectedRoute = require("./authentication");
 
 const Trip = require("../models/Trip");
 
@@ -13,18 +13,6 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
-
-const protectedRoute = (req, res, next) => {
-  try {
-    if (!req.cookies.token) {
-      throw new Error("You need a travel ticket!");
-    }
-    req.user = jwt.verify(req.cookies.token, SECRET_KEY);
-    next();
-  } catch (err) {
-    res.status(401).end("You are not authorised");
-  }
-};
 
 router.get("/:id", async (req, res, next) => {
   try {
@@ -47,12 +35,12 @@ router.post("/new", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const id = req.params.id;
     const updateTrip = req.body;
-    await Trip.findByIdAndUpdate(id, updateTrip, { new: true });
-    const trips = await Trip.find();
+    await Trip.findByIdAndUpdate(id, updateTrip, { omitUndefined: false });
+    const trips = await Trip.findById(id);
     res.send(trips);
   } catch (err) {
     next(err);
