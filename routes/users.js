@@ -5,12 +5,12 @@ const jwt = require("jsonwebtoken");
 const protectedRoute = require("./authentication");
 
 const User = require("../models/User");
-
-const SECRET_KEY = "secretkey";
+const Trip = require("../models/Trip");
 
 router.get("/", async (req, res, next) => {
   try {
     const users = await User.find();
+    // .populate("trips");
     res.send(users);
   } catch (err) {
     next(err);
@@ -46,7 +46,7 @@ router.post("/login", async (req, res, next) => {
       throw new Error("Login failed");
     }
 
-    const token = jwt.sign({ name: user.username }, SECRET_KEY);
+    const token = jwt.sign({ name: user.username }, process.env.JWT_SECRET_KEY);
     res.cookie("token", token);
     res.send(user);
   } catch (err) {
@@ -57,11 +57,11 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.get("/:username", async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   try {
-    const username = req.params.username;
-    const regex = new RegExp(username, "gi");
-    const user = await User.find({ username: regex });
+    const id = req.params.id;
+    const user = await User.findById(id);
+    // .populate("trips");
     res.send(user);
   } catch (err) {
     next(err);
