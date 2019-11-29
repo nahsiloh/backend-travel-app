@@ -7,7 +7,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://letsfly.netlify.com"],
+  origin: ["https://letsfly.netlify.com", "http://localhost:3000"],
   preflightContinue: false,
   credentials: true,
   allowedHeaders: "content-type"
