@@ -8,6 +8,7 @@ app.use(express.json());
 
 const corsOptions = {
   origin: process.env.ORIGIN,
+  preflightContinue: false,
   credentials: true,
   allowedHeaders: "content-type"
 };
